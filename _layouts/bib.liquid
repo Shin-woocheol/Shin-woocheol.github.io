@@ -110,7 +110,16 @@
         {%- endif -%}
         {% assign more_authors_show = '' %}
         {%- for author in entry.author_array offset: author_array_limit -%}
-          {% assign more_authors_show = more_authors_show | append: author.first | append: ' ' | append: author.last %}
+          {%- assign ma_last_clean = author.last | regex_replace: '[*∗†‡§¶‖&^]', '' -%}
+          {%- assign ma_is_self = false -%}
+          {% if site.scholar.last_name contains ma_last_clean and site.scholar.first_name contains author.first %}
+            {%- assign ma_is_self = true -%}
+          {% endif %}
+          {%- if ma_is_self -%}
+            {% assign more_authors_show = more_authors_show | append: '<em>' | append: author.first | append: ' ' | append: author.last | append: '</em>' %}
+          {%- else -%}
+            {% assign more_authors_show = more_authors_show | append: author.first | append: ' ' | append: author.last %}
+          {%- endif -%}
           {% unless forloop.last %}
             {% assign more_authors_show = more_authors_show | append: ', ' %}
           {% endunless %}
