@@ -156,7 +156,12 @@ cv:
 
     References:
       - name: Prof. Junghoon Kim
-        summary: "Assistant Professor, Computer Science and Engineering, UNIST. Email: junghoon.kim@unist.ac.kr"
+        reference: >
+          Assistant Professor, Department of Computer Science and Engineering, UNIST.<br>
+          Email: [junghoon.kim@unist.ac.kr](mailto:junghoon.kim@unist.ac.kr)
 
       - name: Prof. Jinkyoo Park
-        summary: "Associate Professor, Industrial and Systems Engineering, KAIST (Adjunct: Graduate School of Data Science, Graduate School of AI). Email: jinkyoo.park@kaist.ac.kr"
+        reference: >
+          Associate Professor, Department of Industrial and Systems Engineering, KAIST.<br>
+          Adjunct Associate Professor, Graduate School of Data Science and Graduate School of AI, KAIST.<br>
+          Email: [jinkyoo.park@kaist.ac.kr](mailto:jinkyoo.park@kaist.ac.kr)
