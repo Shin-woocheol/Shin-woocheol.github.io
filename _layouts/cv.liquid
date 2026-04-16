@@ -179,18 +179,27 @@ layout: default
                 {% assign entries = section_entries %}
                 {% include cv/references.liquid %}
               {% else %}
-                <!-- Generic section -->
-                {% for entry in section_entries %}
-                  {% if entry.bullet %}
-                    <ul class="card-text font-weight-light list-group list-group-flush">
-                      <li class="list-group-item">{{ entry.bullet | markdownify | remove: '<p>' | remove: '</p>' }}</li>
-                    </ul>
-                  {% elsif entry.label %}
-                    <div class="card-text font-weight-light">
-                      <strong>{{ entry.label }}:</strong> {{ entry.details }}
-                    </div>
-                  {% endif %}
-                {% endfor %}
+                <!-- Generic section: auto-route based on entry fields -->
+                {% assign first_entry = section_entries | first %}
+                {% if first_entry.company or first_entry.position or first_entry.organization %}
+                  {% assign entries = section_entries %}
+                  {% include cv/experience.liquid %}
+                {% elsif first_entry.awarder or first_entry.title %}
+                  {% assign entries = section_entries %}
+                  {% include cv/awards.liquid %}
+                {% else %}
+                  {% for entry in section_entries %}
+                    {% if entry.bullet %}
+                      <ul class="card-text font-weight-light list-group list-group-flush">
+                        <li class="list-group-item">{{ entry.bullet | markdownify | remove: '<p>' | remove: '</p>' }}</li>
+                      </ul>
+                    {% elsif entry.label %}
+                      <div class="card-text font-weight-light">
+                        <strong>{{ entry.label }}:</strong> {{ entry.details }}
+                      </div>
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
               {% endif %}
             </div>
           </div>
