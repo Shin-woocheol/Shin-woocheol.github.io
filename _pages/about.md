@@ -2,20 +2,22 @@
 layout: about
 title: about
 permalink: /
-subtitle: M.S. Student, <a href='https://gsds.kaist.ac.kr/'>Graduate School of Data Science</a>, KAIST
+subtitle:
 
 profile:
   align: right
   image: prof_pic.jpg
   image_circular: false
   more_info: >
-    <p>woofe@kaist.ac.kr</p>
+    <p>M.S. Student</p>
+    <p>Graduate School of Data Science</p>
+    <p>KAIST</p>
 
 selected_papers: true
 social: true
 
 announcements:
-  enabled: false
+  enabled: true
   scrollable: true
   limit: 5
 
