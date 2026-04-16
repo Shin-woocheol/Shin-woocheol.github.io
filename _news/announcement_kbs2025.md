@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-Paper published in [Knowledge-Based Systems](https://www.sciencedirect.com/journal/knowledge-based-systems).
+Paper accepted to [Knowledge-Based Systems](https://www.sciencedirect.com/journal/knowledge-based-systems)!

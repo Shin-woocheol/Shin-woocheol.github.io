@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-Paper accepted to [WSDM 2026](https://www.wsdm-conference.org/2026/).
+Paper accepted to [WSDM 2026](https://www.wsdm-conference.org/2026/)!
