@@ -61,32 +61,32 @@ cv:
     Publications:
       - title: "Diffusion Fine-Tuning via Reparameterized Policy Gradient of the Soft Q-Function"
         authors:
-          - "Hyeongyu Kang*, Jaewoo Lee*, Woocheol Shin*, Kiyoung Om, Jinkyoo Park"
+          - "Hyeongyu Kang, Jaewoo Lee, Woocheol Shin, Kiyoung Om, Jinkyoo Park"
         publisher: ICLR 2026
         releaseDate: 2026
 
       - title: "Diffusion Alignment as Variational Expectation-Maximization"
         authors:
-          - "Jaewoo Lee, Minjae Kim, Seungyong Choi, Inseop Song, Seongyun Yun, Hyeongyu Kang, Woocheol Shin, Taegon Yun, Kiyoung Om, Jinkyoo Park"
+          - "Jaewoo Lee, Minsu Kim, Sanghyeok Choi, Inhyuck Song, Sujin Yun, Hyeongyu Kang, Woocheol Shin, Taeyoung Yun, Kiyoung Om, Jinkyoo Park"
         publisher: ICLR 2026
         releaseDate: 2026
 
       - title: "Urban Traffic Network Layout Optimization with Guided Discrete Diffusion Models"
         authors:
-          - "Taegon Yun, Inseop Song, Woocheol Shin, Yejin Shin, Seunghyun Woo, Sungsu Lim, Jinkyoo Park"
+          - "Taeyoung Yun, Inhyuck Song, Woocheol Shin, Yujin Shin, Sungpil Woo, Sunghwan Lim, Jinkyoo Park"
         publisher: WSDM 2026
         releaseDate: 2026
 
-      - title: "Beyond trivial edges: A fractional approach to cohesive subgraph detection in hypergraphs"
+      - title: "Beyond Trivial Edges: A Fractional Approach to Cohesive Subgraph Detection in Hypergraphs"
         authors:
-          - "Hyewon Kim, Woocheol Shin, Dahee Kim, Junghoon Kim*, Sungsu Lim, Hyunji Jeong"
+          - "Hyewon Kim, Woocheol Shin, Dahee Kim, Junghoon Kim, Sungsu Lim, Hyunji Jeong"
         publisher: Knowledge-Based Systems
         releaseDate: 2025
 
       - title: "Complex Network Stability: Exploring Comprehensive Anchored Edge s-Core"
         authors:
-          - "Taejoon Han*, Hyewon Kim*, Seongsik Hwang, Woocheol Shin, Junghoon Kim*, Jaehyun Bhang, Hyeongi Hong"
-        publisher: "Korea Database Conference (WiP track)"
+          - "Taejoon Han, Hyewon Kim, Seongsik Hwang, Woocheol Shin, Junghoon Kim, Jaehyun Bhang, Hyeongi Hong"
+        publisher: "Korea Database Conference (WiP Track)"
         releaseDate: 2024
 
     Awards:
