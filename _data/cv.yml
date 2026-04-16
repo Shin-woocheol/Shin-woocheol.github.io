@@ -5,7 +5,10 @@ cv:
   phone: (+82) 010-4340-2018
   location: Daejeon, South Korea
   image: ""
-  summary: M.S. student at KAIST Graduate School of Data Science. Research interests in machine learning and data mining.
+  summary: >
+    I am broadly interested in building generative policies for sequential decision-making toward human-desired goals in the real world.
+    My current research focuses on steering large generative models, especially diffusion and flow-based models, toward desired outputs
+    using reinforcement learning and reward-guided optimization.
 
   social_networks:
     - network: GitHub
@@ -35,7 +38,7 @@ cv:
         location: Daejeon, South Korea
         start_date: 2024-10
         end_date: 2025-02
-        summary: "Advisor: Prof. Jinkyoo Park"
+        summary: "Advisor: Prof. Jinkyoo Park. Focus: Generative model alignment, Diffusion/Flow models, Reinforcement learning."
 
       - company: Data Mining Lab, UNIST
         position: Undergraduate Researcher, Seminar Organizer
@@ -120,20 +123,20 @@ cv:
         summary: "Korean Patent Application No. 10-2025-0107601. Applicants: UNIST; Industry-Academic Cooperation Foundation, Kongju National University. Inventors: Junghoon Kim, Hyewon Kim, Woocheol Shin, Dahee Kim, Hyunji Jeong."
 
     Projects:
-      - name: "AICP, UNIST (UNIST AI Challengers Program)"
-        summary: "Topic: Bipartite Cohesive Subgraph Discovery in Networks"
-        start_date: 2023-04
-        end_date: 2023-12
+      - name: "UIRP, UNIST (Undergraduate Interdisciplinary Research Project)"
+        summary: "Topic: Generalised Anchoring Methods for Maximising User Engagement in Complex Social Networks"
+        start_date: 2024-03
+        end_date: 2024-05
 
       - name: Creative Independent Project, UNIST AIGS
         summary: "Topic: A Budget Minimisation to Reinforcing Social Engagement"
         start_date: 2023-10
         end_date: 2024-05
 
-      - name: "UIRP, UNIST (Undergraduate Interdisciplinary Research Project)"
-        summary: "Topic: Generalised Anchoring Methods for Maximising User Engagement in Complex Social Networks"
-        start_date: 2024-03
-        end_date: 2024-05
+      - name: "AICP, UNIST (UNIST AI Challengers Program)"
+        summary: "Topic: Bipartite Cohesive Subgraph Discovery in Networks"
+        start_date: 2023-04
+        end_date: 2023-12
 
     Other Experiences:
       - company: NAVER CONNECT 1784 School Revolution Program, NAVER
@@ -155,13 +158,13 @@ cv:
         summary: Teaching Programming
 
     References:
-      - name: Prof. Junghoon Kim
-        reference: >
-          Assistant Professor, Department of Computer Science and Engineering, UNIST.<br>
-          Email: [junghoon.kim@unist.ac.kr](mailto:junghoon.kim@unist.ac.kr)
-
       - name: Prof. Jinkyoo Park
         reference: >
           Associate Professor, Department of Industrial and Systems Engineering, KAIST.<br>
           Adjunct Associate Professor, Graduate School of Data Science and Graduate School of AI, KAIST.<br>
           Email: [jinkyoo.park@kaist.ac.kr](mailto:jinkyoo.park@kaist.ac.kr)
+
+      - name: Prof. Junghoon Kim
+        reference: >
+          Assistant Professor, Department of Computer Science and Engineering, UNIST.<br>
+          Email: [junghoon.kim@unist.ac.kr](mailto:junghoon.kim@unist.ac.kr)
