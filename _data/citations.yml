@@ -1,12 +1,12 @@
 metadata:
-  last_updated: '2026-04-20'
+  last_updated: '2026-05-18'
 papers:
   PmRv-_kAAAAJ:9yKSN-GCB0IC:
     citations: 0
     title: Urban Traffic Network Layout Optimization with Guided Discrete Diffusion Models
     year: '2026'
   PmRv-_kAAAAJ:d1gkVwhDpl0C:
-    citations: 0
+    citations: 1
     title: Diffusion Fine-Tuning via Reparameterized Policy Gradient of the Soft Q-Function
     year: '2025'
   PmRv-_kAAAAJ:u-x6o8ySG0sC:
