@@ -1,16 +1,24 @@
 metadata:
-  last_updated: '2026-05-18'
+  last_updated: '2026-06-03'
 papers:
+  PmRv-_kAAAAJ:2osOgNQ5qMEC:
+    citations: 0
+    title: Automated Kernel Discovery Towards Understanding High-dimensional Bayesian Optimization
+    year: '2026'
   PmRv-_kAAAAJ:9yKSN-GCB0IC:
     citations: 0
     title: Urban Traffic Network Layout Optimization with Guided Discrete Diffusion Models
     year: '2026'
   PmRv-_kAAAAJ:d1gkVwhDpl0C:
-    citations: 1
+    citations: 3
     title: Diffusion Fine-Tuning via Reparameterized Policy Gradient of the Soft Q-Function
     year: '2025'
-  PmRv-_kAAAAJ:u-x6o8ySG0sC:
+  PmRv-_kAAAAJ:qjMakFHDy7sC:
     citations: 0
+    title: Aligning Few-Step Generative Models by Amortizing Sample-based Variational Inference
+    year: '2026'
+  PmRv-_kAAAAJ:u-x6o8ySG0sC:
+    citations: 1
     title: Diffusion Alignment as Variational Expectation-Maximization
     year: '2025'
   PmRv-_kAAAAJ:u5HHmVD_uO8C:
