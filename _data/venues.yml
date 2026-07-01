@@ -5,6 +5,10 @@
   url: https://iclr.cc/
   color: "#0b6fe5"
 
+"ICMLW":
+  url: https://icml.cc/
+  color: "#6f42c1"
+
 "WSDM":
   url: https://www.wsdm-conference.org/
   color: "#b0022a"

@@ -62,6 +62,18 @@ cv:
         summary: "IE437: Data-Driven Decision Making and Control"
 
     Publications:
+      - title: "Automated Kernel Discovery Towards Understanding High-dimensional Bayesian Optimization"
+        authors:
+          - "Taeyoung Yun, Woocheol Shin, Inhyuck Song, Jaewoo Lee, Jinkyoo Park"
+        publisher: ICML 2026 Workshop
+        releaseDate: 2026
+
+      - title: "Aligning Few-Step Generative Models by Amortizing Sample-based Variational Inference"
+        authors:
+          - "Jaewoo Lee, Hyeongyu Kang, Dohyun Kim, Kyuil Sim, Woocheol Shin, Minsu Kim, Taeyoung Yun, Jeongjae Lee, Sanghyeok Choi, Tabitha Edith Lee, Jongchul Ye, Jinkyoo Park"
+        publisher: ICML 2026 Workshop
+        releaseDate: 2026
+
       - title: "Diffusion Fine-Tuning via Reparameterized Policy Gradient of the Soft Q-Function"
         authors:
           - "Hyeongyu Kang, Jaewoo Lee, Woocheol Shin, Kiyoung Om, Jinkyoo Park"
@@ -86,12 +98,6 @@ cv:
         publisher: Knowledge-Based Systems
         releaseDate: 2025
 
-      - title: "Complex Network Stability: Exploring Comprehensive Anchored Edge s-Core"
-        authors:
-          - "Taejoon Han, Hyewon Kim, Seongsik Hwang, Woocheol Shin, Junghoon Kim, Jaehyun Bhang, Hyeongi Hong"
-        publisher: "Korea Database Conference (WiP Track)"
-        releaseDate: 2024
-
     Awards:
       - title: Excellence Award, ISE & GSDS Research Day Poster Competition
         awarder: KAIST
@@ -109,6 +115,10 @@ cv:
         summary: "Spring 2023 (4.3/4.3), Fall 2023 (4.24/4.3), Spring 2024 (4.3/4.3)"
 
     Scholarships:
+      - title: "Master's Excellence Scholarship in Science & Engineering"
+        awarder: Korea Student Aid Foundation
+        date: 2026
+
       - title: KAIST Scholarship
         awarder: KAIST
         summary: Whole semesters
