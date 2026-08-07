@@ -1,5 +1,5 @@
 metadata:
-  last_updated: '2026-08-03'
+  last_updated: '2026-08-07'
 papers:
   PmRv-_kAAAAJ:2osOgNQ5qMEC:
     citations: 0
@@ -19,7 +19,7 @@ papers:
     year: '2026'
   PmRv-_kAAAAJ:u-x6o8ySG0sC:
     citations: 1
-    title: Diffusion Alignment as Variational Expectation-Maximization
+    title: Diffusion alignment as variational expectation-maximization
     year: '2026'
   PmRv-_kAAAAJ:u5HHmVD_uO8C:
     citations: 2
