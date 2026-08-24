@@ -1,5 +1,5 @@
 metadata:
-  last_updated: '2026-08-07'
+  last_updated: '2026-08-24'
 papers:
   PmRv-_kAAAAJ:2osOgNQ5qMEC:
     citations: 0
@@ -22,6 +22,6 @@ papers:
     title: Diffusion alignment as variational expectation-maximization
     year: '2026'
   PmRv-_kAAAAJ:u5HHmVD_uO8C:
-    citations: 2
+    citations: 3
     title: 'Beyond trivial edges: A fractional approach to cohesive subgraph detection in hypergraphs'
     year: '2025'
