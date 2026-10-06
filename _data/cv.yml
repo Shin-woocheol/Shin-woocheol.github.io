@@ -65,13 +65,13 @@ cv:
       - title: "Automated Kernel Discovery Towards Understanding High-dimensional Bayesian Optimization"
         authors:
           - "Taeyoung Yun, Woocheol Shin, Inhyuck Song, Jaewoo Lee, Jinkyoo Park"
-        publisher: ICML 2026 Workshop
+        publisher: NeurIPS 2026
         releaseDate: 2026
 
       - title: "Aligning Few-Step Generative Models by Amortizing Sample-based Variational Inference"
         authors:
           - "Jaewoo Lee, Hyeongyu Kang, Dohyun Kim, Kyuil Sim, Woocheol Shin, Minsu Kim, Taeyoung Yun, Jeongjae Lee, Sanghyeok Choi, Tabitha Edith Lee, Jongchul Ye, Jinkyoo Park"
-        publisher: ICML 2026 Workshop
+        publisher: NeurIPS 2026
         releaseDate: 2026
 
       - title: "Diffusion Fine-Tuning via Reparameterized Policy Gradient of the Soft Q-Function"
