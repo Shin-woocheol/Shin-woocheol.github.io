@@ -1,0 +1,755 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Noise Policy Optimization (NPO): reward alignment of few-step generative models by learning an amortized flow policy over the generator's input noise."
+    />
+    <title>NPO: Noise-Space Reward Alignment for Few-Step Generative Models</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" />
+    <script>
+      window.MathJax = { tex: { inlineMath: [["\\(", "\\)"]] } };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <link rel="stylesheet" href="static/css/index.css" />
+  </head>
+
+  <body>
+    <!-- --- Hero --- -->
+    <section class="hero">
+      <div class="hero-body">
+        <div class="container is-max-desktop has-text-centered">
+          <h1 class="title is-2 publication-title"><span class="npo">NPO</span>: Noise-Space Reward Alignment<br />for Few-Step Generative Models</h1>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><a href="https://shin-woocheol.github.io/">Woocheol Shin</a><sup>1</sup>,</span>
+            <span class="author-block"><a href="https://dbsxodud-11.github.io/">Taeyoung Yun</a><sup>1</sup>,</span>
+            <span class="author-block"><a href="https://sunione.github.io/">Jiwon Sung</a><sup>2</sup>,</span>
+            <span class="author-block">Hyeongyu Kang<sup>1</sup>,</span>
+            <span class="author-block"><a href="https://jinnessism.github.io/">Jeongmin Park</a><sup>1</sup>,</span>
+            <br />
+            <span class="author-block"><a href="https://jaewoopudding.github.io/">Jaewoo Lee</a><sup>1</sup>,</span>
+            <span class="author-block"><a href="https://ski-sim.github.io/">Kyuil Sim</a><sup>1</sup>,</span>
+            <span class="author-block">Dohyun Kim<sup>1</sup>,</span>
+            <span class="author-block"><a href="https://kellyyutonghe.github.io/">Yutong He</a><sup>3&dagger;</sup>,</span>
+            <span class="author-block"><a href="https://scholar.google.com/citations?user=sH2a0nkAAAAJ">Jinkyoo Park</a><sup>1,4&dagger;</sup></span>
+          </div>
+
+          <div class="is-size-5 publication-authors affiliations">
+            <span class="author-block"><sup>1</sup>KAIST</span>
+            <span class="author-block"><sup>2</sup>Stanford University</span>
+            <span class="author-block"><sup>3</sup>Carnegie Mellon University</span>
+            <span class="author-block"><sup>4</sup>Omelet</span>
+          </div>
+          <p class="note"><sup>&dagger;</sup>Co-corresponding authors</p>
+
+          <div class="publication-links">
+            <span class="link-block">
+              <a class="button is-normal is-rounded is-dark is-static-soon" aria-disabled="true">
+                <span class="icon"><i class="ai ai-arxiv"></i></span>
+                <span>arXiv&nbsp;<span class="soon">(coming soon)</span></span>
+              </a>
+            </span>
+            <span class="link-block">
+              <a class="button is-normal is-rounded is-dark is-static-soon" aria-disabled="true">
+                <span class="icon"><i class="fab fa-github"></i></span>
+                <span>Code&nbsp;<span class="soon">(coming soon)</span></span>
+              </a>
+            </span>
+            <span class="link-block">
+              <a href="#bibtex" class="button is-normal is-rounded is-dark">
+                <span class="icon"><i class="fas fa-quote-right"></i></span>
+                <span>BibTeX</span>
+              </a>
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- --- Teaser --- -->
+    <section class="section pt-0">
+      <div class="container is-max-desktop">
+        <figure class="paper-figure">
+          <img src="static/images/teaser.svg" alt="NPO teaser: reward alignment, samples over training, and inference cost" />
+          <figcaption>
+            (a) Reward learning curves of NPO, direct fine-tuning, and a trajectory-based noise policy. (b) Generated samples over training for NPO
+            and direct fine-tuning. (c) Comparison with test-time scaling methods.
+          </figcaption>
+        </figure>
+        <p class="tldr has-text-centered">
+          For few-step generative model alignment, direct fine-tuning can suffer from <b>reward over&#8209;optimization</b>, while test-time
+          optimization incurs <b>substantial inference cost</b>. NPO efficiently aligns few-step generative models using
+          <b>only black&#8209;box rewards</b>, while maintaining <b>high sample quality and fast inference</b>.
+        </p>
+      </div>
+    </section>
+
+    <!-- --- Abstract --- -->
+    <section class="section is-shaded">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3 has-text-centered">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Few-step generative models produce high-quality samples in one or a few evaluations. However, steering them toward desired properties
+            remains difficult, especially when only black-box reward evaluations are available. While one could apply approaches developed for
+            iterative diffusion and flow-based models, such as direct RL fine-tuning or test-time scaling, we find that neither transfers well to the
+            few-step regime: direct fine-tuning suffers from severe reward over-optimization, and test-time scaling sacrifices the efficiency
+            advantage of few-step generation.
+          </p>
+          <p>
+            We propose <b>Noise Policy Optimization (NPO)</b>, which explicitly targets the alignment problem for few-step generative models. The key
+            idea is to learn an amortized flow policy over the initial noise space of the generator. The trained policy transports Gaussian noise to a
+            reward-tilted noise distribution, whose pushforward distribution through the frozen generator is exactly the reward-tilted output
+            distribution. By keeping the generator frozen, we can effectively utilize the knowledge encoded in the pretrained model, yielding a better
+            reward-quality trade-off than direct fine-tuning. The amortized policy moves the search cost into training, so inference adds only a
+            lightweight noise sampling step on top of the pretrained model. To improve sample efficiency during training, we use ELBO-based likelihood
+            estimation that requires only sampled endpoints rather than simulated trajectories.
+          </p>
+          <p>
+            Across image, language, and protein structure generation, NPO consistently achieves a better reward-quality trade-off than direct
+            fine-tuning, and matches test-time search methods with <b>16&ndash;549&times;</b> lower inference cost.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- --- Method --- -->
+    <section class="section">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3 has-text-centered">Method</h2>
+        <figure class="paper-figure mb-3">
+          <iframe id="method-animation" src="static/method_animation.html" title="NPO method animation" scrolling="no"></iframe>
+        </figure>
+        <script>
+          // Size the iframe to its content so the animation never scrolls inside the page.
+          const methodFrame = document.getElementById("method-animation");
+          const fitMethodFrame = () => (methodFrame.style.height = methodFrame.contentDocument.querySelector("main").offsetHeight + "px");
+          methodFrame.addEventListener("load", () => {
+            fitMethodFrame();
+            new ResizeObserver(fitMethodFrame).observe(methodFrame.contentDocument.body);
+          });
+        </script>
+
+        <div class="columns method-cards">
+          <div class="column">
+            <div class="method-card">
+              <h3 class="title is-5">Noise-space target</h3>
+              <p>
+                Rather than modifying the generator \(g_\theta\), NPO changes its input distribution while keeping the generator fixed. Sampling from
+                the reward-tilted output distribution \(p^\star\) can be reduced to sampling from the reward-tilted noise distribution \[
+                q^\star(z)\propto q_{\mathrm{base}}(z)\exp\!\left(\frac{r(g_\theta(z))}{\alpha}\right) \] whose pushforward through \(g_\theta\) is
+                exactly \(p^\star\), i.e., \(g_{\theta\#}q^\star=p^\star\).
+              </p>
+            </div>
+          </div>
+          <div class="column">
+            <div class="method-card">
+              <h3 class="title is-5">Amortized flow policy</h3>
+              <p>
+                We learn a flow policy \(q_\psi\) to approximate the reward-tilted noise distribution \(q^\star\) by minimizing the reverse KL
+                divergence \[ \min_\psi D_{\mathrm{KL}}(q_\psi\|q^\star), \] which is equivalent to maximizing reward while regularizing \(q_\psi\)
+                toward the initial noise distribution \(q_{\mathrm{base}}\). By amortizing the noise transformation, NPO moves the cost of test-time
+                search to training.
+              </p>
+            </div>
+          </div>
+          <div class="column">
+            <div class="method-card">
+              <h3 class="title is-5">ELBO-based policy optimization</h3>
+              <p>
+                Policy-gradient optimization requires estimating the endpoint likelihood \[ \log q_\psi(z_0). \] We use an ELBO-based estimator that
+                operates on sampled endpoints and forward-noising pairs \((t,\epsilon)\), rather than conventional trajectory-based likelihood
+                estimation. This avoids dependence on simulated rollout trajectories, providing a more efficient signal for policy updates.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- L_NPO equation hidden for now
+        <div class="content equation">
+          \[ \mathcal L_{\mathrm{NPO}}(\psi) = \mathbb E\Big[\operatorname{sg}\big(A\,\widehat\rho_\psi\big)\,w(t)\,\big\Vert
+          v_\psi(z_t,t)-u_t\big\Vert_2^2 + \lambda_{\mathrm{ref}}\,\big\Vert v_\psi(z_t,t)-v_{\mathrm{ref}}(z_t,t)\big\Vert_2^2\Big] \]
+        </div>
+        -->
+      </div>
+    </section>
+
+    <!-- --- Results --- -->
+    <section class="section is-shaded" id="results">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3 has-text-centered">Results</h2>
+        <div class="content">
+          <p>We evaluate NPO across image, language, and protein structure generation, focusing on three questions:</p>
+          <ol class="questions">
+            <li>
+              <b>Reward&ndash;quality trade-off.</b> Does NPO achieve a better reward&ndash;quality trade-off than direct generator fine-tuning?
+            </li>
+            <li><b>Inference efficiency.</b> Does NPO achieve competitive rewards at lower inference cost than test-time optimization?</li>
+            <li><b>Training efficiency.</b> Does NPO reach comparable rewards with fewer reward calls than trajectory-based noise policies?</li>
+          </ol>
+        </div>
+
+        <div class="tabs is-toggle is-centered is-fullwidth domain-tabs" role="tablist">
+          <ul>
+            <li class="is-active"><a role="tab" data-domain="image">Image</a></li>
+            <li><a role="tab" data-domain="language">Language</a></li>
+            <li><a role="tab" data-domain="protein">Protein</a></li>
+          </ul>
+        </div>
+
+        <!-- --- Image --- -->
+        <div class="domain-panel" data-domain="image">
+          <p class="setup">
+            <b>Setup.</b> We use SANA-Sprint and SD-Turbo with one- and four-step sampling as pretrained models. Target rewards: LAION aesthetic score
+            and JPEG compressibility, optimized without reward gradients. JPEG compressibility comes from a non-differentiable encoder, and we treat
+            the aesthetic predictor as a black box as well, so neither reward gradient is used. We use ImageReward and LPIPS diversity to assess
+            sample quality and diversity, respectively.
+          </p>
+
+          <h3 class="q-title"><span class="q-num">1</span>Reward&ndash;quality trade-off</h3>
+          <p class="content">
+            Under one-step sampling, NPO improves both target rewards on both generators, whereas Flow-GRPO and FAV-B show limited or no improvement.
+            Under four-step sampling, Flow-GRPO raises the target reward but loses ImageReward and diversity, while NPO preserves both.
+          </p>
+          <figure class="paper-figure">
+            <img src="static/images/image_target_1step.svg" alt="Image reward learning curves, 1-step" />
+            <figcaption>Reward learning curves of NPO and direct fine-tuning baselines under 1-step generation.</figcaption>
+          </figure>
+          <figure class="paper-figure">
+            <img src="static/images/image_pareto_4step.svg" alt="Image reward-quality trade-off, 4-step" />
+            <figcaption>Reward-quality trade-off of NPO and direct fine-tuning baselines on SANA-Sprint with 4-step sampling.</figcaption>
+          </figure>
+          <div class="tabs is-small is-toggle is-centered sub-tabs" data-group="image-qual">
+            <ul>
+              <li class="is-active"><a data-value="aesthetic">Aesthetic reward</a></li>
+              <li><a data-value="compressibility">Compressibility reward</a></li>
+            </ul>
+          </div>
+          <figure class="paper-figure" data-group="image-qual" data-value="aesthetic">
+            <img src="static/images/qual_aesthetic.jpg" alt="Qualitative comparison, aesthetic reward" loading="lazy" />
+          </figure>
+          <figure class="paper-figure is-hidden" data-group="image-qual" data-value="compressibility">
+            <img src="static/images/qual_compressibility.jpg" alt="Qualitative comparison, compressibility reward" loading="lazy" />
+          </figure>
+          <p class="figure-note">SANA-Sprint, 4-step sampling, same prompts and initial noise, matched reward-call budget.</p>
+
+          <h3 class="q-title"><span class="q-num">2</span>Inference efficiency</h3>
+          <p class="content">NPO matches the target reward of test-time noise optimization at a significantly lower inference cost.</p>
+          <table class="table is-narrow result-table">
+            <caption>
+              Test-time search comparison on SD-Turbo (1-step).
+            </caption>
+            <thead>
+              <tr>
+                <th>Method</th>
+                <th>Target reward</th>
+                <th>NFE</th>
+                <th>Time (s)</th>
+                <th>Rel. cost</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>SD-Turbo (Base)</td>
+                <td>6.12</td>
+                <td>1</td>
+                <td>0.06</td>
+                <td>1.0&times;</td>
+              </tr>
+              <tr>
+                <td>BoN-32</td>
+                <td>6.56</td>
+                <td>32</td>
+                <td>2.51</td>
+                <td>44.2&times;</td>
+              </tr>
+              <tr>
+                <td>ReNO</td>
+                <td>6.52</td>
+                <td>13</td>
+                <td>2.42</td>
+                <td>42.6&times;</td>
+              </tr>
+              <tr>
+                <td>ZeNO</td>
+                <td>6.50</td>
+                <td>482</td>
+                <td>30.78</td>
+                <td>542.8&times;</td>
+              </tr>
+              <tr class="ours">
+                <td>NPO (Ours)</td>
+                <td>6.52</td>
+                <td>1</td>
+                <td>0.15</td>
+                <td>2.6&times;</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3 class="q-title"><span class="q-num">3</span>Training efficiency</h3>
+          <p class="content">
+            NPO reaches comparable rewards with fewer reward evaluations than ODS and Noise Flow-GRPO. Noise Flow-GRPO trains the same flow policy
+            with trajectory-based likelihoods, so the gap isolates the ELBO-based update.
+          </p>
+          <figure class="paper-figure">
+            <img src="static/images/image_noise_efficiency.svg" alt="Noise-policy learning curves on images" />
+            <figcaption>Reward learning curves of NPO and noise-policy learning baselines.</figcaption>
+          </figure>
+        </div>
+
+        <!-- --- Language --- -->
+        <div class="domain-panel is-hidden" data-domain="language">
+          <p class="setup">
+            <b>Setup.</b> We use the progressively distilled four-step ELF as the pretrained model. Target reward: NLI entailment probability for
+            &ldquo;This text is about [topic]&rdquo; (politics, science). Because the reward is scored on the text only after sampling, its gradient
+            is not straightforwardly available. We use GPT-2 Large perplexity and unigram entropy to assess fluency and diversity, respectively.
+          </p>
+
+          <h3 class="q-title"><span class="q-num">1</span>Reward&ndash;quality trade-off</h3>
+          <p class="content">
+            Direct fine-tuning gains little topic reward while perplexity and entropy fall together, the signature of degenerate repetition. NPO keeps
+            both near the pretrained model while reaching a higher reward.
+          </p>
+          <figure class="paper-figure">
+            <img src="static/images/language_pareto.svg" alt="Language reward-quality trade-off" />
+            <figcaption>Reward-quality trade-off of NPO against direct fine-tuning on topic steering.</figcaption>
+          </figure>
+          <div class="sample-controls">
+            <div class="control-group">
+              <span class="control-label">Topic</span>
+              <div class="tabs is-small is-toggle sub-tabs" data-group="lang-topic">
+                <ul>
+                  <li class="is-active"><a data-value="science">Science</a></li>
+                  <li><a data-value="politics">Politics</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="control-group">
+              <span class="control-label">Training checkpoint</span>
+              <div class="tabs is-small is-toggle sub-tabs" data-group="lang-ckpt">
+                <ul>
+                  <li><a data-value="0">Early</a></li>
+                  <li><a data-value="1">Middle</a></li>
+                  <li class="is-active"><a data-value="2">Late</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div id="lang-samples" class="lang-samples"></div>
+          <p class="figure-note">Each sample column uses one fixed initial noise across all methods. Red marks a collapsed sample.</p>
+
+          <h3 class="q-title"><span class="q-num">2</span>Inference efficiency</h3>
+          <p class="content">NPO reaches a target reward comparable to Best-of-N at a significantly lower inference cost.</p>
+          <table class="table is-narrow result-table">
+            <caption>
+              Test-time search comparison on ELF (science topic).
+            </caption>
+            <thead>
+              <tr>
+                <th>Method</th>
+                <th>Target reward</th>
+                <th>NFE</th>
+                <th>Time (s)</th>
+                <th>Rel. cost</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>ELF (Base)</td>
+                <td>0.148</td>
+                <td>4</td>
+                <td>0.03</td>
+                <td>1.0&times;</td>
+              </tr>
+              <tr>
+                <td>BoN-64</td>
+                <td>0.960</td>
+                <td>256</td>
+                <td>5.87</td>
+                <td>218.2&times;</td>
+              </tr>
+              <tr>
+                <td>ZeNO</td>
+                <td>0.550</td>
+                <td>1,928</td>
+                <td>38.41</td>
+                <td>1427.8&times;</td>
+              </tr>
+              <tr class="ours">
+                <td>NPO (Ours)</td>
+                <td>0.951</td>
+                <td>4</td>
+                <td>0.07</td>
+                <td>2.5&times;</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3 class="q-title"><span class="q-num">3</span>Training efficiency</h3>
+          <p class="content">On both topics, NPO reaches a higher reward than the noise-policy baselines under the same reward-evaluation budget.</p>
+          <figure class="paper-figure narrow-md">
+            <img src="static/images/lang_noise_efficiency.svg" alt="Language noise-policy learning curves" />
+            <figcaption>Reward learning curves of NPO and noise-policy learning baselines.</figcaption>
+          </figure>
+        </div>
+
+        <!-- --- Protein --- -->
+        <div class="domain-panel is-hidden" data-domain="protein">
+          <p class="setup">
+            <b>Setup.</b> We use a five-step distilled protein backbone generator as the pretrained model. The target reward, secondary-structure (SS)
+            composition, favors diverse compositions with extra weight on \(\beta\)-sheets. Because the reward relies on categorical assignments made
+            after generation, its gradient is not available. Designability measures whether generated backbones can be self-consistently realized by
+            designed amino-acid sequences, serving as a measure of plausibility. Pairwise TM-score measures structural diversity.
+          </p>
+
+          <h3 class="q-title"><span class="q-num">1</span>Reward&ndash;quality trade-off</h3>
+          <p class="content">
+            Direct fine-tuning yields limited reward improvements while sharply degrading designability. In particular, Flow-GRPO reduces
+            designability to zero, meaning that none of the evaluated backbones are designable. In contrast, NPO substantially improves the reward
+            while retaining much higher designability.
+          </p>
+          <figure class="paper-figure narrow">
+            <img src="static/images/bio_tradeoff.png" alt="Protein reward-quality trade-off" />
+            <figcaption>Reward against designability and pairwise TM-score for NPO and direct fine-tuning.</figcaption>
+          </figure>
+          <figure class="paper-figure">
+            <img src="static/images/qual_bio.jpg" alt="Protein backbones from the pretrained generator, NPO, Flow-GRPO, and FAV-B" loading="lazy" />
+            <figcaption>
+              Backbones generated from the same initial noise. &alpha;-helices in <span class="ss-blue">blue</span>,
+              <u>&beta;-sheets in <span class="ss-red">red</span></u
+              >, coils in <span class="ss-green">green</span>.
+            </figcaption>
+          </figure>
+
+          <h3 class="q-title"><span class="q-num">2</span>Inference efficiency</h3>
+          <p class="content">NPO reaches a higher target reward than test-time optimization at a significantly lower inference cost.</p>
+          <table class="table is-narrow result-table">
+            <caption>
+              Test-time search comparison on protein backbone generation.
+            </caption>
+            <thead>
+              <tr>
+                <th>Method</th>
+                <th>Target reward</th>
+                <th>NFE</th>
+                <th>Time (s)</th>
+                <th>Rel. cost</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>SiD-Protein (Base)</td>
+                <td>&minus;0.84</td>
+                <td>5</td>
+                <td>0.07</td>
+                <td>1.0&times;</td>
+              </tr>
+              <tr>
+                <td>BoN-256</td>
+                <td>&minus;0.28</td>
+                <td>1,280</td>
+                <td>17.71</td>
+                <td>259.6&times;</td>
+              </tr>
+              <tr>
+                <td>ZeNO</td>
+                <td>&minus;0.72</td>
+                <td>2,410</td>
+                <td>22.72</td>
+                <td>333.1&times;</td>
+              </tr>
+              <tr class="ours">
+                <td>NPO (Ours)</td>
+                <td>0.74</td>
+                <td>5</td>
+                <td>0.15</td>
+                <td>2.2&times;</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3 class="q-title"><span class="q-num">3</span>Training efficiency</h3>
+          <p class="content">NPO reaches a higher target reward than the noise-policy baselines under the same reward-evaluation budget.</p>
+          <figure class="paper-figure narrow-sm">
+            <img src="static/images/bio_efficiency.png" alt="Protein noise-policy learning curves" />
+            <figcaption>Reward learning curves of NPO and noise-policy learning baselines.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      // --- Domain tabs and sub-toggles ---
+      const LANG_SAMPLES = {
+        science: {
+          base: [
+            {
+              collapsed: false,
+              text: "As everyone has seen in the NFL, Tyry Johnson didn't appear, but he's one of the best runers in the NFL. We'll get to see from this. 22 DeJ McCrney,WR, WR, WR, Hardt : He's been a guy.",
+            },
+            {
+              collapsed: false,
+              text: "If you're one of the most adventured fans on the game, we'll look at you a little to let you to see what Global Wring is up for. World Wring is one as one of the most engagingd games on the console that plays absolutely well about world order.",
+            },
+          ],
+          checkpoints: [
+            {
+              NPO: [
+                {
+                  collapsed: false,
+                  text: "As everything happens in a pond, modern scientists can't exactly understand how energy is pumped by any thing that is moving through the air. But they might be able to do something from a piece of the lake into an atmosphere or through a piece inside ...",
+                },
+                {
+                  collapsed: false,
+                  text: "This week, the nine month since Elson launched, we've talked with ToE and developers and producer Peter Chaleon to see what ORon is looking for. It's one of the big features that we've seen into the Nintendo- game slate.",
+                },
+              ],
+              "Flow-GRPO": [
+                {
+                  collapsed: false,
+                  text: "In an interview released late Sunday, House President Donald Trump didn't say if he would place a tax on same-sex couples. His comments would be made public on July 5 at a seven-day music festival in Wilmington, Va.",
+                },
+                {
+                  collapsed: false,
+                  text: "\"We're not in a final situation, and we'ven't known what could happen next,\" Kailke said. While House Republican Republicans are voting against the seven-point vote, the Senate's Financeding Committee and the House Republican National Committee didn' ...",
+                },
+              ],
+              "FAV-B": [
+                {
+                  collapsed: false,
+                  text: "Other people who live in the world who have't known or not never known knew other who have often two good friends who liked both met each other other others who who talked to other on Twitter and after each other often many times and talked with othe ...",
+                },
+                {
+                  collapsed: false,
+                  text: "“We're fortunate to be with our friends previously two previously and both met out to family and friends and others Derek Yel Walter said, Chief Executive and CEO of both day each two of our two two of our friends other close and known friends and pr ...",
+                },
+              ],
+            },
+            {
+              NPO: [
+                {
+                  collapsed: false,
+                  text: "As everything happens in a physical world, academics can't exactly understand how energy is poured by an item that is moving through the air. But they might be able to push energy from a chunk of the mountain into an atmosphere or about a chunk below ...",
+                },
+                {
+                  collapsed: false,
+                  text: "This week, the study was published in September in the Journal of Science, in the American Science Journal of Medicine. John Kailberg and several other Space Department researchers are working on the seven-wheel sensor from the NASA's Department Depa ...",
+                },
+              ],
+              "Flow-GRPO": [
+                {
+                  collapsed: false,
+                  text: "In his remarks earlier on Thursday, US President Donald Trump didn't public, what he regarded as major threat to climate change in the Mediterranean. His remarks will be made public in 2017, including a seven-day wildlife festival in Edinburgh, Franc ...",
+                },
+                {
+                  collapsed: false,
+                  text: "Last month, the day before President Obama announced his presidential election. He also visited the European House, China and on Thursday. He also outlined stronger climate change goals — in his seven-day speech as the world's highest-elected preside ...",
+                },
+              ],
+              "FAV-B": [
+                { collapsed: true, text: "[1022 characters, all whitespace except “%”]" },
+                { collapsed: true, text: "[1021 characters, all whitespace except “%”]" },
+              ],
+            },
+            {
+              NPO: [
+                {
+                  collapsed: false,
+                  text: "As everything happens nowadays in the physical world, investigators can't completely understand how chemical objects shaped a thing that is moving through the air.",
+                },
+                {
+                  collapsed: false,
+                  text: "This study has been published in the journal Journal of Science Science. Research is supported by National Space Research Foundation and. John Cailski and other AEA researchers are working on the three-part study from the NASA's State Department of S ...",
+                },
+              ],
+              "Flow-GRPO": [
+                { collapsed: true, text: "[1024 characters in 1 unbroken token(s): “.” repeated]" },
+                { collapsed: true, text: "[1024 characters in 1 unbroken token(s): “.” repeated]" },
+              ],
+              "FAV-B": [
+                { collapsed: true, text: "[1051 characters, all whitespace except “gone arrested arrested arreste”]" },
+                { collapsed: true, text: "[1031 characters, all whitespace except “gone gone”]" },
+              ],
+            },
+          ],
+        },
+        politics: {
+          base: [
+            {
+              collapsed: false,
+              text: "As everyone has seen in the NFL, Tyry Johnson didn't appear, but he's one of the best runers in the NFL. We'll get to see from this. 22 DeJ McCrney,WR, WR, WR, Hardt : He's been a guy.",
+            },
+            {
+              collapsed: false,
+              text: "If you're one of the most adventured fans on the game, we'll look at you a little to let you to see what Global Wring is up for. World Wring is one as one of the most engagingd games on the console that plays absolutely well about world order.",
+            },
+          ],
+          checkpoints: [
+            {
+              NPO: [
+                {
+                  collapsed: false,
+                  text: "As it appeared earlier this month, House President Donald Trump didn't express the reason he acted the right way about gun change in the country. The issue will be on display on TV, at a six-day music event in Detroit, Texas where he lost the 2016 el ...",
+                },
+                {
+                  collapsed: false,
+                  text: "This week, the year-Julsith anniversary of Microsoft gathered with U&amp;C President and CEO Mike Melbeck to discuss what OpRon is working on its three-year project, the company's chief of development officer and vice president of computer design.",
+                },
+              ],
+              "Flow-GRPO": [
+                {
+                  collapsed: false,
+                  text: "STTE: GETE: I don't don't believe it. He's a little bit odd. he's tricky. I'm attempting to get him get a bit cranky. He doesn't dance. he doesn't. He's very anxious. He think he's more delicate and he's so intelligent at something.",
+                },
+                {
+                  collapsed: false,
+                  text: "Tese: I'm perseted [I'm really so intrigued]. What does that perspective Peter how would you get ask? Tese: I get. I'm one of the two. He's a very sophisticated player. I he's competent. he's a very basic rate. He's very remarkably sophisticated.",
+                },
+              ],
+              "FAV-B": [
+                {
+                  collapsed: false,
+                  text: "\"All the happens in the batting is very well kept and working extremely and he's a great guy that is efficient at the speed and I'll be able to play and at great level in the defensive and is able to quickly as he handles the punch and that's the how ...",
+                },
+                {
+                  collapsed: false,
+                  text: "\"We' are thrilled to be able to play and we're really looking forward to see him and see how he will and see what NBA he is looking at. He's one of the best stars from all on the world and player in the game really very well and overall he has a pers ...",
+                },
+              ],
+            },
+            {
+              NPO: [
+                {
+                  collapsed: false,
+                  text: "As in the past three months, House Speaker Pe Carter didn't publicly confirm that President Trump did a good job decreasing gun change in the country.",
+                },
+                {
+                  collapsed: false,
+                  text: "On Thursday, the EU-Omitsieur Presidenty Peen visited the White House with Secretary of State John Peilson to discuss what Global New Energy is doing after its three-day speech between the EU's chief of the staff and the secretary of National Securit ...",
+                },
+              ],
+              "Flow-GRPO": [
+                {
+                  collapsed: false,
+                  text: "Rocker: In a way Stefan Franzens can't explain it. It's just this little thing that is flowing in the air. We're being able to pog into a trench that spills into an ocean of oil that ges into the ocean.",
+                },
+                {
+                  collapsed: false,
+                  text: "Tese: We're crusing out what we're running the archaeological to looking the fossil and Peter Grelstein to see what Gresen is working at. These's one of the ones we're developing a piece of software that runs spatial graph maps.",
+                },
+              ],
+              "FAV-B": [
+                { collapsed: true, text: "[1023 characters, all whitespace except “a”]" },
+                { collapsed: true, text: "[1023 characters, all whitespace]" },
+              ],
+            },
+            {
+              NPO: [
+                {
+                  collapsed: false,
+                  text: "As it appeared earlier this month, House Speaker Rand Paul didn't say the way he stepped up how to reduce economic growth in the country. But things would be noticeable on screen, after a five-year restaurant production slump and 30 years after he le ...",
+                },
+                {
+                  collapsed: false,
+                  text: "This Wednesday, about seven hours after Overselection President Donald Trump, visited the White House with Secretary of State John Caillke to discuss what Seranon is talking about.",
+                },
+              ],
+              "Flow-GRPO": [
+                {
+                  collapsed: false,
+                  text: "Wimbledon Pour Pour Pour Pour Pour Pour impression impression impression Wimbledon impression impression impression impression impression impression impression impression impression impression impression impression impression impression impression im ...",
+                },
+                {
+                  collapsed: false,
+                  text: "Pour Pour Pour Pour Pour Pour Pour Pour Pour impression impression impression impression impression impression impression impression impression impression impression impression impression impression impression impression impression impression impress ...",
+                },
+              ],
+              "FAV-B": [
+                { collapsed: true, text: "[337 tokens, 1 distinct: “a” repeated]" },
+                { collapsed: true, text: "[360 tokens, 1 distinct: “a” repeated]" },
+              ],
+            },
+          ],
+        },
+      };
+
+      function selectIn(tabs, value) {
+        tabs.querySelectorAll("li").forEach((li) => li.classList.toggle("is-active", li.firstElementChild.dataset.value === value));
+      }
+
+      function renderLangSamples() {
+        const topic = document.querySelector('[data-group="lang-topic"] li.is-active a').dataset.value;
+        const ckpt = +document.querySelector('[data-group="lang-ckpt"] li.is-active a').dataset.value;
+        const rows = [["Pretrained", LANG_SAMPLES[topic].base], ...Object.entries(LANG_SAMPLES[topic].checkpoints[ckpt])];
+        const header = `<div class="lang-head"></div><div class="lang-head">Sample 1</div><div class="lang-head">Sample 2</div>`;
+        document.getElementById("lang-samples").innerHTML =
+          header +
+          rows
+            .map(([method, texts]) => {
+              const ours = method === "NPO" ? " ours" : "";
+              const label = method === "NPO" ? "NPO (Ours)" : method;
+              const cells = texts
+                .map(
+                  (t, i) =>
+                    `<div class="lang-cell${ours}" data-sample="Sample ${i + 1}"><p class="${t.collapsed ? "collapsed" : ""}">${t.text}</p></div>`
+                )
+                .join("");
+              return `<div class="lang-method${ours}">${label}</div>${cells}`;
+            })
+            .join("");
+      }
+
+      document.querySelectorAll(".domain-tabs a").forEach((a) =>
+        a.addEventListener("click", () => {
+          document.querySelectorAll(".domain-tabs li").forEach((li) => li.classList.toggle("is-active", li.firstElementChild === a));
+          document.querySelectorAll(".domain-panel").forEach((p) => p.classList.toggle("is-hidden", p.dataset.domain !== a.dataset.domain));
+        })
+      );
+
+      document.querySelectorAll(".sub-tabs a").forEach((a) =>
+        a.addEventListener("click", () => {
+          const tabs = a.closest(".sub-tabs");
+          selectIn(tabs, a.dataset.value);
+          const group = tabs.dataset.group;
+          document
+            .querySelectorAll(`figure[data-group="${group}"]`)
+            .forEach((f) => f.classList.toggle("is-hidden", f.dataset.value !== a.dataset.value));
+          if (group.startsWith("lang-")) renderLangSamples();
+        })
+      );
+
+      renderLangSamples();
+    </script>
+
+    <!-- --- BibTeX --- -->
+    <section class="section" id="bibtex">
+      <div class="container is-max-desktop content">
+        <h2 class="title is-3">BibTeX</h2>
+        <pre><code>@article{shin2026npo,
+  title   = {Noise-Space Reward Alignment for Few-Step Generative Models},
+  author  = {Shin, Woocheol and Yun, Taeyoung and Sung, Jiwon and Kang, Hyeongyu and Park, Jeongmin and
+             Lee, Jaewoo and Sim, Kyuil and Kim, Dohyun and He, Yutong and Park, Jinkyoo},
+  journal = {arXiv preprint},
+  year    = {2026}
+}</code></pre>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container has-text-centered">
+        <p>
+          Page adapted from the <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a> template, licensed under
+          <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

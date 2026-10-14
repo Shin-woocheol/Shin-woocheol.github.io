@@ -1,0 +1,385 @@
+body {
+  font-family: "Noto Sans", sans-serif;
+  background: #fff;
+  color: #363636;
+}
+
+.publication-title {
+  font-family: "Google Sans", sans-serif;
+  line-height: 1.25;
+}
+
+.publication-title .npo {
+  color: #1f6fb4;
+}
+
+.publication-authors {
+  font-family: "Google Sans", sans-serif;
+  margin-top: 1rem;
+}
+
+.publication-authors a {
+  color: inherit;
+}
+
+.publication-authors a:hover {
+  text-decoration: underline;
+}
+
+.author-block {
+  display: inline-block;
+  margin: 0 0.15rem;
+}
+
+.affiliations {
+  margin-top: 0.4rem;
+  color: #4a4a4a;
+}
+
+.affiliations .author-block {
+  margin: 0 0.5rem;
+}
+
+.section.is-shaded {
+  background: #f5f5f5;
+}
+
+.note {
+  font-size: 0.85rem;
+  color: #7a7a7a;
+}
+
+.publication-links {
+  margin-top: 1.25rem;
+}
+
+.link-block {
+  display: inline-block;
+  margin: 0.25rem 0.2rem;
+}
+
+/* --- "coming soon" buttons --- */
+.button.is-static-soon {
+  cursor: default;
+  pointer-events: none;
+}
+
+.button .soon {
+  color: #b5b5b5;
+  font-size: 0.85em;
+}
+
+.paper-figure {
+  margin: 0 0 2rem;
+}
+
+.paper-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+#method-animation {
+  display: block;
+  width: 100%;
+  /* fallback until the load handler sizes it to the content */
+  height: 640px;
+  border: 0;
+}
+
+.paper-figure figcaption {
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
+  color: #555;
+  text-align: center;
+}
+
+.tldr {
+  font-family: "Google Sans", sans-serif;
+  font-size: 1.23rem;
+  line-height: 1.5;
+  color: #4a4a4a;
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .tldr {
+    font-size: 1.15rem;
+  }
+}
+
+.method-cards {
+  margin-top: 0.5rem;
+}
+
+.method-card {
+  height: 100%;
+  padding: 1.1rem 1rem;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  background: #fafafa;
+  font-size: 0.95rem;
+}
+
+.method-card .title {
+  font-size: 1.1rem;
+}
+
+.method-card mjx-container[display="true"] {
+  margin: 0.4em 0 !important;
+}
+
+.equation,
+.equation mjx-container {
+  overflow: hidden !important;
+}
+
+/* the loss is ~672px wide at 1rem; shrink it with the viewport instead of scrolling */
+.equation {
+  font-size: min(1rem, calc(2.3vw - 1px));
+}
+
+.result-table {
+  font-size: 0.9rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.result-table th,
+.result-table td {
+  padding-left: 1.1rem !important;
+  padding-right: 1.1rem !important;
+}
+
+.result-table caption {
+  caption-side: top;
+  font-size: 0.85rem;
+  color: #555;
+  padding-bottom: 0.4rem;
+}
+
+.result-table td:not(:first-child),
+.result-table th:not(:first-child) {
+  text-align: right;
+}
+
+.result-table tr.ours td {
+  font-weight: 700;
+  background: #eef5fc;
+}
+
+pre {
+  white-space: pre-wrap;
+  font-size: 0.85rem;
+}
+
+/* --- Results: questions, domain tabs, per-question blocks --- */
+.questions li {
+  margin-bottom: 0.3rem;
+}
+
+.domain-tabs {
+  margin: 1.5rem 0 2rem;
+}
+
+.domain-tabs a {
+  font-family: "Google Sans", sans-serif;
+  font-size: 1.05rem;
+  background: #fff;
+}
+
+.setup {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+
+.q-title {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: "Google Sans", sans-serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 2.5rem 0 0.75rem;
+}
+
+.q-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 50%;
+  background: #7a7a7a;
+  color: #fff;
+  font-size: 0.95rem;
+}
+
+.sub-tabs {
+  margin-bottom: 0.75rem;
+}
+
+.sub-tabs a {
+  background: #fff;
+}
+
+.figure-note {
+  font-size: 0.85rem;
+  color: #777;
+  text-align: center;
+  margin-top: -1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.paper-figure.narrow {
+  max-width: 56%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.paper-figure.narrow-md {
+  max-width: 58%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.paper-figure.narrow-sm {
+  max-width: 42%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* captions of narrowed figures may use the full column so they stay on one line */
+.paper-figure.narrow figcaption,
+.paper-figure.narrow-md figcaption,
+.paper-figure.narrow-sm figcaption {
+  width: max-content;
+  max-width: min(960px, calc(100vw - 32px));
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@media (max-width: 768px) {
+  .paper-figure.narrow,
+  .paper-figure.narrow-md,
+  .paper-figure.narrow-sm {
+    max-width: 100%;
+  }
+}
+
+/* muted active state instead of Bulma's bright link blue */
+.tabs.is-toggle li.is-active a {
+  background: #d2d2d2;
+  border-color: #bdbdbd;
+  color: #2b2b2b;
+  font-weight: 600;
+}
+
+/* secondary-structure colors used in the protein renders */
+.ss-blue {
+  color: #2727c8;
+}
+
+.ss-red {
+  color: #c82727;
+}
+
+.ss-green {
+  color: #27a027;
+}
+
+/* --- Language samples --- */
+.sample-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.control-label {
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.sample-controls .sub-tabs {
+  margin-bottom: 0 !important;
+}
+
+.lang-samples {
+  display: grid;
+  grid-template-columns: 6.5rem 1fr 1fr;
+  column-gap: 1rem;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 0.25rem 1rem;
+  margin-bottom: 2rem;
+  font-size: 0.85rem;
+}
+
+.lang-head {
+  padding: 0.6rem 0 0.4rem;
+  border-bottom: 1px solid #ddd;
+  font-weight: 700;
+  color: #555;
+}
+
+.lang-method,
+.lang-cell {
+  padding: 0.6rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.lang-samples > :nth-last-child(-n + 3) {
+  border-bottom: 0;
+}
+
+.lang-method {
+  font-weight: 700;
+}
+
+.lang-method.ours {
+  color: #1f6fb4;
+}
+
+.lang-cell p {
+  margin: 0;
+}
+
+.lang-cell p.collapsed {
+  color: #b03030;
+  font-style: italic;
+}
+
+/* phones: one column, each cell labelled with its sample */
+@media (max-width: 768px) {
+  .lang-samples {
+    grid-template-columns: 1fr;
+  }
+
+  .lang-head {
+    display: none;
+  }
+
+  .lang-method {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .lang-cell::before {
+    content: attr(data-sample);
+    display: block;
+    font-size: 0.75rem;
+    color: #888;
+  }
+}
