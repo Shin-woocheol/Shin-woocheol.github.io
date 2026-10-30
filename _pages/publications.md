@@ -15,6 +15,12 @@ nav_order: 2
 
 <div class="publications">
 
-{% bibliography %}
+<h2 class="bibliography-section">preprints</h2>
+
+{% bibliography --group_by none --query @*[preprint=true] %}
+
+<h2 class="bibliography-section">conference & journal papers</h2>
+
+{% bibliography --query @*[preprint!=true] %}
 
 </div>
