@@ -1,0 +1,437 @@
+---
+layout: null
+sitemap: false
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>석사학위논문 심사 일정 조율</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --ink: #222;
+        --muted: #6b6b6b;
+        --line: #dcdcdc;
+        --slot: #f4f6f8;
+        --slot-hover: #e3ecf5;
+        --pick: #2f7d5b;
+        --pick-hover: #286b4e;
+        --accent: #1f6fb4;
+        --bg: #fff;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "Noto Sans KR", system-ui, sans-serif;
+        line-height: 1.6;
+      }
+      main {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 40px 16px 64px;
+      }
+      h1 {
+        font-size: 1.5rem;
+        margin: 0 0 4px;
+      }
+      .sub {
+        color: var(--muted);
+        margin: 0 0 24px;
+      }
+      .step {
+        margin-top: 28px;
+      }
+      .step h2 {
+        font-size: 1.05rem;
+        margin: 0 0 8px;
+      }
+      .step h2 span {
+        display: inline-block;
+        width: 1.6rem;
+        height: 1.6rem;
+        line-height: 1.6rem;
+        text-align: center;
+        border-radius: 50%;
+        background: #555;
+        color: #fff;
+        font-size: 0.85rem;
+        margin-right: 6px;
+      }
+      .hint {
+        color: var(--muted);
+        font-size: 0.92rem;
+        margin: 0 0 10px;
+      }
+      input[type="text"] {
+        width: 100%;
+        max-width: 320px;
+        padding: 10px 12px;
+        font-size: 1rem;
+        border: 1px solid #bbb;
+        border-radius: 8px;
+        font-family: inherit;
+      }
+
+      /* --- Availability grid --- */
+      .legend {
+        display: flex;
+        gap: 16px;
+        font-size: 0.85rem;
+        color: var(--muted);
+        margin-bottom: 8px;
+      }
+      .legend i {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        border-radius: 3px;
+        vertical-align: -2px;
+        margin-right: 4px;
+        border: 1px solid var(--line);
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 52px repeat(var(--days), 1fr);
+        user-select: none;
+        -webkit-user-select: none;
+      }
+      .grid .corner,
+      .grid .head {
+        text-align: center;
+        font-weight: 700;
+        font-size: 0.9rem;
+        padding: 6px 2px;
+        position: sticky;
+        top: 0;
+        background: var(--bg);
+        z-index: 1;
+        border-bottom: 2px solid #999;
+      }
+      .grid .head small {
+        display: block;
+        font-weight: 400;
+        color: var(--muted);
+      }
+      .grid .time {
+        font-size: 0.78rem;
+        color: var(--muted);
+        text-align: right;
+        padding-right: 6px;
+        line-height: 30px;
+      }
+      .grid .time.hour {
+        color: var(--ink);
+        font-weight: 500;
+      }
+      .cell {
+        height: 30px;
+        margin: 1px;
+        border-radius: 4px;
+        background: var(--slot);
+        border: 1px solid var(--line);
+        cursor: pointer;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .cell.hour-start {
+        margin-top: 4px;
+      }
+      @media (hover: hover) {
+        .cell:hover {
+          background: var(--slot-hover);
+        }
+        .cell.on:hover {
+          background: var(--pick-hover);
+        }
+      }
+      .cell.on {
+        background: var(--pick);
+        border-color: var(--pick);
+      }
+      .evening {
+        display: contents;
+      }
+      .evening.hidden > * {
+        display: none;
+      }
+      .toggle-evening {
+        margin-top: 10px;
+        background: none;
+        border: 1px dashed #999;
+        border-radius: 8px;
+        padding: 8px 14px;
+        font-family: inherit;
+        font-size: 0.9rem;
+        color: var(--ink);
+        cursor: pointer;
+      }
+
+      /* --- Summary and submit --- */
+      .summary {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 12px 14px;
+        min-height: 48px;
+        background: #fafafa;
+      }
+      .summary ul {
+        margin: 0;
+        padding-left: 18px;
+      }
+      .summary .empty {
+        color: var(--muted);
+      }
+      button.submit {
+        margin-top: 16px;
+        padding: 12px 28px;
+        font-size: 1rem;
+        font-family: inherit;
+        font-weight: 700;
+        color: #fff;
+        background: var(--accent);
+        border: 0;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      button.submit:disabled {
+        background: #a9b8c6;
+        cursor: not-allowed;
+      }
+      .status {
+        margin-top: 14px;
+        padding: 12px 14px;
+        border-radius: 8px;
+        display: none;
+      }
+      .status.ok {
+        display: block;
+        background: #e8f4ee;
+        color: #1d5a3f;
+      }
+      .status.err {
+        display: block;
+        background: #fbeaea;
+        color: #8a2020;
+      }
+
+      @media (max-width: 520px) {
+        .grid {
+          grid-template-columns: 44px repeat(var(--days), 1fr);
+        }
+        .grid .head {
+          font-size: 0.8rem;
+        }
+        .grid .time {
+          font-size: 0.72rem;
+          padding-right: 4px;
+        }
+        .cell {
+          height: 34px;
+        }
+        .grid .time {
+          line-height: 34px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>신우철 석사학위논문 심사 일정 조율</h1>
+      <p class="sub">KAIST 데이터사이언스대학원 · 모든 시간은 한국시간(KST) 기준입니다.</p>
+
+      <section class="step">
+        <h2><span>1</span>성함</h2>
+        <input type="text" id="name" placeholder="예: 홍길동" autocomplete="name" />
+      </section>
+
+      <section class="step">
+        <h2><span>2</span>가능한 시간 표시</h2>
+        <p class="hint">
+          가능하신 시간대를 모두 표시해 주세요. 여러 날짜와 시간대를 선택하실 수 있습니다.<br />
+          칸을 누르면 선택되고, 다시 누르면 취소됩니다. PC에서는 드래그로 여러 칸을 한 번에 선택할 수 있습니다.
+        </p>
+        <div class="legend">
+          <span><i style="background: var(--slot)"></i>선택 안 함</span><span><i style="background: var(--pick)"></i>가능</span>
+        </div>
+        <div class="grid" id="grid"></div>
+        <button type="button" class="toggle-evening" id="toggle-evening"></button>
+      </section>
+
+      <section class="step">
+        <h2><span>3</span>선택한 시간 확인</h2>
+        <div class="summary" id="summary"></div>
+        <button type="button" class="submit" id="submit" disabled>제출</button>
+        <div class="status" id="status" role="status"></div>
+      </section>
+    </main>
+
+    <script>
+      // --- Settings: edit dates, hours, and the Formspree endpoint here ---
+      const DATES = ["2026-12-15", "2026-12-16", "2026-12-17", "2026-12-18", "2026-12-21", "2026-12-22"];
+      const DAY_START = "09:00"; // first slot shown by default
+      const DAY_END = "18:00"; // default view ends here; evening rows follow
+      const EVENING_END = "22:00";
+      const STEP_MIN = 30;
+      const FORMSPREE_ENDPOINT = "https://formspree.io/f/xaeojzaz";
+
+      const WEEKDAYS = ["일", "월", "화", "수", "목", "금", "토"];
+      const toMin = (hhmm) => hhmm.split(":").reduce((h, m) => h * 60 + +m);
+      const toHHMM = (min) => `${String(Math.floor(min / 60)).padStart(2, "0")}:${String(min % 60).padStart(2, "0")}`;
+      const dayLabel = (iso) => {
+        const [y, m, d] = iso.split("-").map(Number);
+        return { md: `${m}/${d}`, wd: WEEKDAYS[new Date(y, m - 1, d).getDay()] };
+      };
+
+      const selected = new Set(); // keys "YYYY-MM-DD|minute"
+      const grid = document.getElementById("grid");
+      const eveningToggle = document.getElementById("toggle-evening");
+      let eveningShown = false;
+
+      // --- Build the grid: one row per 30-minute slot, one column per date ---
+      function buildGrid() {
+        grid.style.setProperty("--days", DATES.length);
+        const corner = document.createElement("div");
+        corner.className = "corner";
+        grid.append(corner);
+        for (const iso of DATES) {
+          const { md, wd } = dayLabel(iso);
+          const head = document.createElement("div");
+          head.className = "head";
+          head.innerHTML = `${md}<small>(${wd})</small>`;
+          grid.append(head);
+        }
+        const evening = document.createElement("div");
+        evening.className = "evening hidden";
+        for (let t = toMin(DAY_START); t < toMin(EVENING_END); t += STEP_MIN) {
+          const target = t >= toMin(DAY_END) ? evening : grid;
+          const label = document.createElement("div");
+          label.className = "time" + (t % 60 === 0 ? " hour" : "");
+          label.textContent = toHHMM(t);
+          target.append(label);
+          for (const iso of DATES) {
+            const cell = document.createElement("div");
+            cell.className = "cell" + (t % 60 === 0 && t !== toMin(DAY_START) ? " hour-start" : "");
+            cell.dataset.key = `${iso}|${t}`;
+            cell.title = `${dayLabel(iso).md}(${dayLabel(iso).wd}) ${toHHMM(t)}–${toHHMM(t + STEP_MIN)}`;
+            target.append(cell);
+          }
+        }
+        grid.append(evening);
+        eveningToggle.addEventListener("click", () => setEvening(!eveningShown));
+        setEvening(false);
+      }
+
+      function setEvening(show) {
+        eveningShown = show;
+        grid.querySelector(".evening").classList.toggle("hidden", !show);
+        eveningToggle.textContent = show ? "저녁 시간대 접기" : `저녁 시간대 보기 (${DAY_END}–${EVENING_END})`;
+      }
+
+      // --- Selection: mouse click/drag paints, touch tap toggles ---
+      let painting = null; // true = selecting, false = deselecting
+      let lastPointer = "mouse"; // click events do not carry pointerType on every browser
+      function setCell(cell, on) {
+        cell.classList.toggle("on", on);
+        on ? selected.add(cell.dataset.key) : selected.delete(cell.dataset.key);
+      }
+      grid.addEventListener("pointerdown", (e) => {
+        lastPointer = e.pointerType;
+        const cell = e.target.closest(".cell");
+        if (!cell || e.pointerType === "touch") return;
+        e.preventDefault();
+        painting = !cell.classList.contains("on");
+        setCell(cell, painting);
+        render();
+      });
+      grid.addEventListener("pointerover", (e) => {
+        const cell = e.target.closest(".cell");
+        if (painting === null || !cell) return;
+        setCell(cell, painting);
+        render();
+      });
+      window.addEventListener("pointerup", () => (painting = null));
+      // Touch: a tap toggles one cell; dragging scrolls the page as usual.
+      grid.addEventListener("click", (e) => {
+        const cell = e.target.closest(".cell");
+        if (!cell || lastPointer !== "touch") return;
+        setCell(cell, !cell.classList.contains("on"));
+        render();
+      });
+
+      // --- Merge adjacent slots into ranges, per date ---
+      function ranges() {
+        return DATES.map((iso) => {
+          const mins = [...selected]
+            .filter((k) => k.startsWith(iso))
+            .map((k) => +k.split("|")[1])
+            .sort((a, b) => a - b);
+          const out = [];
+          for (const m of mins) {
+            const last = out[out.length - 1];
+            if (last && last[1] === m) last[1] = m + STEP_MIN;
+            else out.push([m, m + STEP_MIN]);
+          }
+          const { md, wd } = dayLabel(iso);
+          return { label: `${md}(${wd})`, spans: out.map(([a, b]) => `${toHHMM(a)}–${toHHMM(b)}`) };
+        }).filter((d) => d.spans.length);
+      }
+      const formatLines = () => ranges().map((d) => `${d.label} ${d.spans.join(", ")} (KST)`);
+
+      const nameInput = document.getElementById("name");
+      const summary = document.getElementById("summary");
+      const submitBtn = document.getElementById("submit");
+      const status = document.getElementById("status");
+
+      function render() {
+        const lines = formatLines();
+        summary.innerHTML = lines.length
+          ? `<ul>${lines.map((l) => `<li>${l}</li>`).join("")}</ul>`
+          : '<span class="empty">아직 선택한 시간이 없습니다.</span>';
+        submitBtn.disabled = !nameInput.value.trim() || !lines.length;
+      }
+      nameInput.addEventListener("input", render);
+
+      // --- Submit to Formspree; on failure keep the name and selection ---
+      submitBtn.addEventListener("click", async () => {
+        const name = nameInput.value.trim();
+        const lines = formatLines();
+        submitBtn.disabled = true;
+        submitBtn.textContent = "전송 중…";
+        status.className = "status";
+        try {
+          const res = await fetch(FORMSPREE_ENDPOINT, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Accept: "application/json" },
+            body: JSON.stringify({
+              _subject: `[학위심사 일정] ${name} 교수님 가능 시간`,
+              name,
+              availability: lines.join("\n"),
+              timezone: "KST (UTC+9)",
+            }),
+          });
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          status.className = "status ok";
+          status.textContent = "가능한 시간이 전달되었습니다. 감사합니다.";
+          submitBtn.textContent = "다시 제출";
+        } catch (err) {
+          status.className = "status err";
+          status.textContent = "전송에 실패했습니다. 입력하신 내용은 그대로 남아 있으니 잠시 후 다시 시도해 주세요.";
+          submitBtn.textContent = "다시 시도";
+        }
+        render();
+      });
+
+      buildGrid();
+      render();
+    </script>
+  </body>
+</html>
