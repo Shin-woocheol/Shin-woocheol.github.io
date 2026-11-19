@@ -1,7 +1,7 @@
 ---
 layout: page
 permalink: /publications/
-title: publications
+title: Publications
 description:
 nav: true
 nav_order: 2
@@ -15,11 +15,11 @@ nav_order: 2
 
 <div class="publications">
 
-<h2 class="bibliography-section">preprints</h2>
+<h2 class="bibliography-section">Preprints</h2>
 
 {% bibliography --group_by none --query @*[preprint=true] %}
 
-<h2 class="bibliography-section">conference & journal papers</h2>
+<h2 class="bibliography-section">Conference & Journal Papers</h2>
 
 {% bibliography --query @*[preprint!=true] %}
 

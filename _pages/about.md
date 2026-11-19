@@ -1,6 +1,6 @@
 ---
 layout: about
-title: about
+title: About
 permalink: /
 subtitle: M.S. Student, Graduate School of Data Science, KAIST
 
