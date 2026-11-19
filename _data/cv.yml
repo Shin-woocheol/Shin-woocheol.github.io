@@ -60,44 +60,62 @@ cv:
         end_date: 2025-12
         summary: "IE437: Data-Driven Decision Making and Control"
 
+    Preprints:
+      - title: "[P2] Noise-Space Reward Alignment for Few-Step Generative Models"
+        authors:
+          - "Woocheol Shin, Taeyoung Yun, Jiwon Sung, Hyeongyu Kang, Jeongmin Park, Jaewoo Lee, Kyuil Sim, Dohyun Kim, Yutong He, Jinkyoo Park"
+        publisher: arXiv
+        releaseDate: 2026
+
+      - title: "[P1] FestDPO: Few-step Generator Alignment with Direct Preference Optimization"
+        authors:
+          - "Jaewoo Lee, Kyuil Sim, Hyeongyu Kang, Kanghoon Lee, Woocheol Shin, Jinkyoo Park"
+        publisher: arXiv
+        releaseDate: 2026
+
     Publications:
-      - title: "Automated Kernel Discovery Towards Understanding High-dimensional Bayesian Optimization"
+      - title: "[C5] Automated Kernel Discovery Towards Understanding High-dimensional Bayesian Optimization"
         authors:
           - "Taeyoung Yun, Woocheol Shin, Inhyuck Song, Jaewoo Lee, Jinkyoo Park"
         publisher: NeurIPS 2026
         releaseDate: 2026
 
-      - title: "Aligning Few-Step Generative Models by Amortizing Sample-based Variational Inference"
+      - title: "[C4] Aligning Few-Step Generative Models by Amortizing Sample-based Variational Inference"
         authors:
           - "Jaewoo Lee, Hyeongyu Kang, Dohyun Kim, Kyuil Sim, Woocheol Shin, Minsu Kim, Taeyoung Yun, Jeongjae Lee, Sanghyeok Choi, Tabitha Edith Lee, Jongchul Ye, Jinkyoo Park"
         publisher: NeurIPS 2026
         releaseDate: 2026
 
-      - title: "Diffusion Fine-Tuning via Reparameterized Policy Gradient of the Soft Q-Function"
+      - title: "[C3] Diffusion Fine-Tuning via Reparameterized Policy Gradient of the Soft Q-Function"
         authors:
           - "Hyeongyu Kang, Jaewoo Lee, Woocheol Shin, Kiyoung Om, Jinkyoo Park"
         publisher: ICLR 2026
         releaseDate: 2026
 
-      - title: "Diffusion Alignment as Variational Expectation-Maximization"
+      - title: "[C2] Diffusion Alignment as Variational Expectation-Maximization"
         authors:
           - "Jaewoo Lee, Minsu Kim, Sanghyeok Choi, Inhyuck Song, Sujin Yun, Hyeongyu Kang, Woocheol Shin, Taeyoung Yun, Kiyoung Om, Jinkyoo Park"
         publisher: ICLR 2026
         releaseDate: 2026
 
-      - title: "Urban Traffic Network Layout Optimization with Guided Discrete Diffusion Models"
+      - title: "[C1] Urban Traffic Network Layout Optimization with Guided Discrete Diffusion Models"
         authors:
           - "Taeyoung Yun, Inhyuck Song, Woocheol Shin, Yujin Shin, Sungpil Woo, Sunghwan Lim, Jinkyoo Park"
         publisher: WSDM 2026
         releaseDate: 2026
 
-      - title: "Beyond Trivial Edges: A Fractional Approach to Cohesive Subgraph Detection in Hypergraphs"
+      - title: "[J1] Beyond Trivial Edges: A Fractional Approach to Cohesive Subgraph Detection in Hypergraphs"
         authors:
           - "Hyewon Kim, Woocheol Shin, Dahee Kim, Junghoon Kim, Sungsu Lim, Hyunji Jeong"
         publisher: Knowledge-Based Systems
         releaseDate: 2025
 
     Awards:
+      - title: Finalist, Qualcomm Innovation Fellowship Korea (QIFK) 2026
+        awarder: Qualcomm AI Research
+        date: 2026-10
+        summary: "For the paper: Diffusion Fine-Tuning via Reparameterized Policy Gradient of the Soft Q-Function"
+
       - title: Excellence Award, ISE & GSDS Research Day Poster Competition
         awarder: KAIST
         date: 2025-11
@@ -146,6 +164,12 @@ cv:
         summary: "Topic: Bipartite Cohesive Subgraph Discovery in Networks"
         start_date: 2023-04
         end_date: 2023-12
+
+    Academic Services:
+      - company: Reviewer
+        start_date: 2026
+        end_date: 2026
+        summary: ICML, ICLR
 
     Other Experiences:
       - company: NAVER CONNECT 1784 School Revolution Program, NAVER
