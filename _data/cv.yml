@@ -19,9 +19,16 @@ cv:
         location: Daejeon, South Korea
         url: https://gsds.kaist.ac.kr/
         area: Data Science
+        studyType: Ph.D., Graduate School of Data Science
+        start_date: 2027-02
+
+      - institution: KAIST
+        location: Daejeon, South Korea
+        url: https://gsds.kaist.ac.kr/
+        area: Data Science
         studyType: M.S., Graduate School of Data Science
         start_date: 2025-02
-        end_date: Present
+        end_date: 2027-02
 
       - institution: UNIST
         location: Ulsan, South Korea
