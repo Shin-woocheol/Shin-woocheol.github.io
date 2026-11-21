@@ -33,6 +33,7 @@ sitemap: false
         color: var(--ink);
         font-family: "Noto Sans KR", system-ui, sans-serif;
         line-height: 1.6;
+        word-break: keep-all; /* wrap Korean at word boundaries, not mid-word */
       }
       main {
         max-width: 760px;
@@ -246,7 +247,7 @@ sitemap: false
   <body>
     <main>
       <h1>석사학위논문 심사 일정 조율</h1>
-      <p class="sub">모든 시간은 한국시간(KST) 기준입니다.</p>
+      <p class="sub">모든 시간은 한국시간(KST) 기준입니다.<br />시간 선택을 마치신 후 아래 <b>선택 완료</b> 버튼을 눌러 주세요.</p>
 
       <section class="step">
         <h2><span>1</span>성함</h2>
@@ -268,6 +269,7 @@ sitemap: false
 
       <section class="step">
         <h2><span>3</span>선택한 시간 확인</h2>
+        <p class="hint">시간 선택을 마치신 후 아래 <b>선택 완료</b> 버튼을 눌러 주세요.</p>
         <div class="summary" id="summary"></div>
         <button type="button" class="submit" id="submit" disabled>선택 완료</button>
         <div class="status" id="status" role="status"></div>
