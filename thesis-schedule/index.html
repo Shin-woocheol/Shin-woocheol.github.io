@@ -191,8 +191,15 @@ sitemap: false
       .summary .empty {
         color: var(--muted);
       }
-      button.submit {
+      /* result message sits right next to the button so the click visibly does something */
+      .submit-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px 14px;
         margin-top: 16px;
+      }
+      button.submit {
         padding: 12px 28px;
         font-size: 1rem;
         font-family: inherit;
@@ -208,7 +215,7 @@ sitemap: false
         cursor: not-allowed;
       }
       .status {
-        margin-top: 14px;
+        flex: 1 1 150px; /* share the row with the button; wrap the text inside */
         padding: 12px 14px;
         border-radius: 8px;
         display: none;
@@ -271,8 +278,10 @@ sitemap: false
         <h2><span>3</span>선택한 시간 확인</h2>
         <p class="hint">시간 선택을 마치신 후 아래 <b>선택 완료</b> 버튼을 눌러 주세요.</p>
         <div class="summary" id="summary"></div>
-        <button type="button" class="submit" id="submit" disabled>선택 완료</button>
-        <div class="status" id="status" role="status"></div>
+        <div class="submit-row">
+          <button type="button" class="submit" id="submit" disabled>선택 완료</button>
+          <div class="status" id="status" role="status"></div>
+        </div>
       </section>
     </main>
 
