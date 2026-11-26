@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-Selected as a winner of the 2026 Qualcomm Innovation Fellowship Korea (QIFK)!
+Selected as a winner of the 2026 [Qualcomm Innovation Fellowship Korea (QIFK)](https://www.qualcomm.com/research/university-relations/innovation-fellowship/winners)!
