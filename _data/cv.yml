@@ -118,10 +118,14 @@ cv:
         releaseDate: 2025
 
     Awards:
-      - title: Finalist, Qualcomm Innovation Fellowship Korea (QIFK) 2026
-        awarder: Qualcomm AI Research
-        date: 2026-10
-        summary: "For the paper: Diffusion Fine-Tuning via Reparameterized Policy Gradient of the Soft Q-Function"
+      - title: Winner, Qualcomm Innovation Fellowship Korea (QIFK) 2026
+        awarder: Qualcomm
+        date: 2026-11
+
+      - title: Excellence Award, ISE & GSDS Research Day Poster Competition
+        awarder: KAIST
+        date: 2026-11
+        summary: "For the poster: Noise-Space Reward Alignment for Few-Step Generative Models"
 
       - title: Excellence Award, ISE & GSDS Research Day Poster Competition
         awarder: KAIST
